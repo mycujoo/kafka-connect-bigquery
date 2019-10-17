@@ -34,12 +34,12 @@ compileJava {
 }
 
 artifactory {
-    contextUrl = ${artURL}
+    contextUrl = "${artURL}"
     publish {
         repository {
             repoKey = 'data-platform'
-            username = ${artUsername}
-            password = ${artPassword}
+            username = "${artUsername}"
+            password = "${artPassword}"
             maven = true
 
         }
