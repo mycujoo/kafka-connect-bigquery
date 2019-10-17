@@ -18,10 +18,6 @@ archivesBaseName = 'kafka-connect-bigquery'
 
 println System.env.ARTIFACTORY_URL
 
-artURL = System.env.ARTIFACTORY_URL
-echo ${artURL}
-artUsername = System.env.ARTIFACTORY_URL
-artPassword = System.env.ARTIFACTORY_URL
 
 if (details.commitDistance == 0) {
     version = details.lastTag
@@ -37,7 +33,7 @@ compileJava {
 }
 
 artifactory {
-    contextUrl = "${artURL}"
+    contextUrl = System.env.ARTIFACTORY_URL
     publish {
         repository {
             repoKey = 'data-platform'
