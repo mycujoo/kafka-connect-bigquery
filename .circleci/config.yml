@@ -14,6 +14,7 @@ jobs:
           name: debug git
           command: |
             git status
+            echo $ARTIFACTORY_URL
 
       - run:
           name: Publish to artifactory
