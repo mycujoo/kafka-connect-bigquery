@@ -38,7 +38,7 @@ artifactory {
         repository {
             repoKey = 'data-platform'
             username = System.env.ARTIFACTORY_USER
-            password = System.env.ARTIFACTORY_PASS
+            password = System.env.ARTIFACTORY_PASSWORD
             maven = true
 
         }
