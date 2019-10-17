@@ -42,20 +42,21 @@ public class BigQueryConnectException extends ConnectException {
     super(thr);
   }
 
-  public BigQueryConnectException(Map<Long, List<BigQueryError>> errors) {
-    super(formatInsertAllErrors(errors));
+  public BigQueryConnectException(Map<Long, List<BigQueryError>> errors, String topic) {
+    super(formatInsertAllErrors(errors, topic));
   }
 
-  private static String formatInsertAllErrors(Map<Long, List<BigQueryError>> errorsMap) {
+  private static String formatInsertAllErrors(Map<Long, List<BigQueryError>> errorsMap, String topic) {
     StringBuilder messageBuilder = new StringBuilder();
     messageBuilder.append("table insertion failed for the following rows:");
     for (Map.Entry<Long, List<BigQueryError>> errorsEntry : errorsMap.entrySet()) {
       for (BigQueryError error : errorsEntry.getValue()) {
         messageBuilder.append(String.format(
-            "%n\t[row index %d]: %s: %s",
+            "%n\t[row index %d]: %s: %s on topic %s",
             errorsEntry.getKey(),
             error.getReason(),
-            error.getMessage()
+            error.getMessage(),
+            topic
         ));
       }
     }

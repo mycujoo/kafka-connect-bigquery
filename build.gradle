@@ -1,3 +1,50 @@
+plugins
+{
+    id "com.jfrog.artifactory" version "4.8.1"
+    id 'java-library'
+    id 'maven-publish'
+    id 'com.palantir.git-version' version '0.11.0'
+}
+
+def details = versionDetails()
+println "lastTag: " + details.lastTag
+println "commitDistance: " + details.commitDistance
+println "gitHash: " + details.gitHash
+println "gitHashFull: " + details.gitHashFull // full 40-character Git commit hash
+println "branchName: " + details.branchName // is null if the repository in detached HEAD mode
+println "isCleanTag: " + details.isCleanTag
+
+archivesBaseName = 'kafka-connect-bigquery'
+
+if (details.commitDistance == 0) {
+    version = details.lastTag
+} else {
+    version = details.lastTag + '-SNAPSHOT'
+}
+
+group = 'kafka-connect-bigquery'
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+artifactory {
+    contextUrl = "${ARTIFACTORY_URL}"
+    publish {
+        repository {
+            repoKey = 'data-platform'
+            username = "${ARTIFACTORY_USER}"
+            password = "${ARTIFACTORY_PASSWORD}"
+            maven = true
+
+        }
+        defaults {
+            publications ('mavenJava')
+        }
+    }
+}
+
 // BEGIN ALL PROJECTS //
 allprojects {
     apply plugin: 'java'
@@ -57,7 +104,7 @@ subprojects { subproject ->
         from sourceSets.main.allSource
     }
 
-    signing {
+    /*signing {
         sign configurations.archives
         required {
             gradle.taskGraph.hasTask('uploadArchives')
@@ -110,7 +157,7 @@ subprojects { subproject ->
                 }
             }
         }
-    }
+    }*/
 }
 // END SUBPROJECTS
 
@@ -218,7 +265,7 @@ project(':kcbq-connector') {
         archives javadocJar, sourcesJar
     }
 
-    uploadArchives {
+    /*uploadArchives {
         repositories {
             mavenDeployer {
                 pom.project {
@@ -229,7 +276,7 @@ project(':kcbq-connector') {
                 }
             }
         }
-    }
+    }*/
 }
 
 project('kcbq-api') {
@@ -260,7 +307,7 @@ project('kcbq-api') {
         archives javadocJar, sourcesJar
     }
 
-    uploadArchives {
+    /*uploadArchives {
         repositories {
             mavenDeployer {
                 pom.project {
@@ -271,7 +318,7 @@ project('kcbq-api') {
                 }
             }
         }
-    }
+    }*/
 }
 
 project('kcbq-confluent') {
@@ -337,7 +384,7 @@ project('kcbq-confluent') {
         archives javadocJar, sourcesJar, distTar
     }
 
-    uploadArchives {
+    /*uploadArchives {
         repositories {
             mavenDeployer {
                 pom.project {
@@ -346,6 +393,15 @@ project('kcbq-confluent') {
                     description 'A Schema Registry-based schema retriever for the Kafka Connector used to load data into BigQuery'
                     url 'https://github.com/wepay/kafka-connect-bigquery'
                 }
+            }
+        }
+    }*/
+
+    publishing { // https://docs.gradle.org/current/userguide/publishing_overview.html
+        publications {
+            mavenJava(MavenPublication) {
+                groupId group
+                artifact distTar
             }
         }
     }
