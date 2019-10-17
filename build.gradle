@@ -17,6 +17,7 @@ println "isCleanTag: " + details.isCleanTag
 archivesBaseName = 'kafka-connect-bigquery'
 
 artURL = System.getenv("ARTIFACTORY_URL")
+echo artURL
 artUsername = System.getenv("ARTIFACTORY_USER")
 artPassword = System.getenv("ARTIFACTORY_PASSWORD")
 
