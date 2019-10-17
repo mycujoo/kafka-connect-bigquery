@@ -16,6 +16,10 @@ println "isCleanTag: " + details.isCleanTag
 
 archivesBaseName = 'kafka-connect-bigquery'
 
+artURL = System.getenv("ARTIFACTORY_URL")
+artUsername = System.getenv("ARTIFACTORY_USER")
+artPassword = System.getenv("ARTIFACTORY_PASSWORD")
+
 if (details.commitDistance == 0) {
     version = details.lastTag
 } else {
@@ -30,12 +34,12 @@ compileJava {
 }
 
 artifactory {
-    contextUrl = "${ARTIFACTORY_URL}"
+    contextUrl = ${artURL}
     publish {
         repository {
             repoKey = 'data-platform'
-            username = "${ARTIFACTORY_USER}"
-            password = "${ARTIFACTORY_PASSWORD}"
+            username = ${artUsername}
+            password = ${artPassword}
             maven = true
 
         }
