@@ -64,7 +64,7 @@ project.ext {
     googleCloudGsonVersion = '2.8.5'
     ioConfluentVersion = '5.1.1'
     junitVersion = '4.12'
-    kafkaVersion = '1.1.1'
+    kafkaVersion = '2.0.0'
     mockitoVersion = '1.10.19'
     slf4jVersion = '1.6.1'
 }
