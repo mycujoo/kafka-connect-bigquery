@@ -7,14 +7,6 @@ allprojects {
   buildscript {
     repositories {
         
-    maven {
-        url "${ARTIFACTORY_URL}"
-        credentials {             
-            username = "${ARTIFACTORY_USER}"
-            password = "${ARTIFACTORY_PASSWORD}"
-        }
-        name = "mycujoo-artifactory"
-    }
     }
   }
     apply plugin: 'java'
@@ -22,6 +14,23 @@ allprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'com.jfrog.artifactory'
     
+}
+
+
+artifactory {
+    contextUrl = System.env.ARTIFACTORY_URL
+    publish {
+        repository {
+            repoKey = 'data-platform'
+            username = System.env.ARTIFACTORY_USER
+            password = System.env.ARTIFACTORY_PASSWORD
+            maven = true
+
+        }
+        defaults {
+            publications ('mavenJava')
+        }
+    }
 }
 
 // END ALL PROJECTS
