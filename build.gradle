@@ -260,22 +260,6 @@ project('kcbq-confluent') {
         add buildscript.repositories.getByName("mycujoo-artifactory")
     }
     
-    artifactory {
-      contextUrl = "${ARTIFACTORY_URL}"
-      publish {
-          repository {
-              repoKey = 'data-platform'
-              username = "${ARTIFACTORY_USER}"
-              password = "${ARTIFACTORY_PASSWORD}"
-              maven = true
-  
-          }       
-              defaults {
-                  publications ('mavenJava')
-              }
-          }
-      }
-    
     publishing {
         publications {
             mavenJava(MavenPublication) {
