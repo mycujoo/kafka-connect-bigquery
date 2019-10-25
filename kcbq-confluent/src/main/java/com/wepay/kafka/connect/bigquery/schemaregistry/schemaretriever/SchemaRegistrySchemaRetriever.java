@@ -23,6 +23,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 import java.util.Map;
+import java.net.URL;
+import java.net.MalformedURLException;
 
 /**
  * Uses the Confluent Schema Registry to fetch the latest schema for a given topic.
