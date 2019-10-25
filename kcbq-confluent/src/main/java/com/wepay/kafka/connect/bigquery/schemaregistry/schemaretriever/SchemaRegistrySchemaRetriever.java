@@ -48,11 +48,26 @@ public class SchemaRegistrySchemaRetriever implements SchemaRetriever {
 
   @Override
   public void configure(Map<String, String> properties) {
-    SchemaRegistrySchemaRetrieverConfig config =
-        new SchemaRegistrySchemaRetrieverConfig(properties);
-    schemaRegistryClient =
-        new CachedSchemaRegistryClient(config.getString(config.LOCATION_CONFIG), 0);
-    avroData = new AvroData(config.getInt(config.AVRO_DATA_CACHE_SIZE_CONFIG));
+		SchemaRegistrySchemaRetrieverConfig config = new SchemaRegistrySchemaRetrieverConfig(properties);
+		URL url;
+		try 
+		{
+			logger.info("Building SchemaRegistry authentication support from URL.");
+			url = new URL(config.getString(config.LOCATION_CONFIG));
+			String userInfo = url.getUserInfo();
+			String[] userInfoArray = userInfo.split(":");
+			String auth = "Basic " + java.util.Base64.getEncoder().encodeToString((userInfoArray[0] + ":" + userInfoArray[1]).getBytes(java.nio.charset.StandardCharsets.UTF_8));
+			io.confluent.kafka.schemaregistry.client.rest.RestService.DEFAULT_REQUEST_PROPERTIES.put("Authorization", auth);
+			logger.info("Added auth to schema registry client");
+		} 
+		catch (MalformedURLException e) 
+		{
+			logger.error("Error connecting to the Schema registry: ", e);
+			//e.printStackTrace();
+		}
+		schemaRegistryClient =
+				new CachedSchemaRegistryClient(config.getString(config.LOCATION_CONFIG), 0);
+		avroData = new AvroData(config.getInt(config.AVRO_DATA_CACHE_SIZE_CONFIG));
   }
 
   @Override
