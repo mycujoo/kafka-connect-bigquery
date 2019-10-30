@@ -19,7 +19,7 @@ jobs:
       - run:
           name: Publish to artifactory
           command: |
-            ./gradlew clean distTar artifactoryPublish
+            ./gradlew clean distTar
 
 workflows:
   version: 2
