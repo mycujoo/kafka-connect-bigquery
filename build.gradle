@@ -9,6 +9,22 @@ allprojects {
     apply plugin: 'com.jfrog.artifactory'
 }
 
+artifactory {
+    contextUrl = System.env.ARTIFACTORY_URL
+    publish {
+        repository {
+            repoKey = 'data-platform'
+            username = System.env.ARTIFACTORY_USER
+            password = System.env.ARTIFACTORY_PASSWORD
+            maven = true
+
+        }
+        defaults {
+            publications ('mavenJava')
+        }
+    }
+}
+
 // END ALL PROJECTS
 
 project.ext {
