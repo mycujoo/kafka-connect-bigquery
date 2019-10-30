@@ -36,7 +36,7 @@ project.ext {
     googleCloudGsonVersion = '2.8.5'
     ioConfluentVersion = '5.1.1'
     junitVersion = '4.12'
-    kafkaVersion = '1.1.1'
+    kafkaVersion = '2.0.0'
     mockitoVersion = '1.10.19'
     slf4jVersion = '1.6.1'
 }
@@ -300,7 +300,7 @@ project('kcbq-confluent') {
     configurations.all {
         resolutionStrategy {
             // depending on debezium results in us pulling in the most recent kafka version, but we want to use 1.1.1.
-            force 'org.apache.kafka:connect-api:1.1.1', 'org.apache.kafka:kafka-clients:1.1.1'
+            force 'org.apache.kafka:connect-api:2.0.0', 'org.apache.kafka:kafka-clients:2.0.0'
         }
     }
 
