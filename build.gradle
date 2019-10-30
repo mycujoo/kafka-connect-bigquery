@@ -1,6 +1,12 @@
 // BEGIN ALL PROJECTS //
+plugins {
+	id "com.jfrog.artifactory" version "4.8.1"
+}
 allprojects {
     apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.jfrog.artifactory'
 }
 
 // END ALL PROJECTS
@@ -329,6 +335,14 @@ project('kcbq-confluent') {
                 "junit:junit:$junitVersion",
                 "org.mockito:mockito-core:$mockitoVersion"
         )
+    }
+    
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifact distTar
+            }
+        }
     }
 
     artifacts {
