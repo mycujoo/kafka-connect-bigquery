@@ -59,7 +59,7 @@ public class SchemaRegistrySchemaRetriever implements SchemaRetriever {
 			String[] userInfoArray = userInfo.split(":");
 			String auth = "Basic " + java.util.Base64.getEncoder().encodeToString((userInfoArray[0] + ":" + userInfoArray[1]).getBytes(java.nio.charset.StandardCharsets.UTF_8));
 			io.confluent.kafka.schemaregistry.client.rest.RestService.DEFAULT_REQUEST_PROPERTIES.put("Authorization", auth);
-			logger.info("Added auth ("+userInfo+") to schema registry client");
+			logger.info("Added auth	 to schema registry client");
 		} 
 		catch (MalformedURLException e) 
 		{
