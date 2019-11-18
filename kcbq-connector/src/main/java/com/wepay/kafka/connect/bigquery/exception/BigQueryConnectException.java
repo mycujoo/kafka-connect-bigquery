@@ -51,12 +51,17 @@ public class BigQueryConnectException extends ConnectException {
     messageBuilder.append("table insertion failed for the following rows:");
     for (Map.Entry<Long, List<BigQueryError>> errorsEntry : errorsMap.entrySet()) {
       for (BigQueryError error : errorsEntry.getValue()) {
-        messageBuilder.append(String.format(
-            "%n\t[row index %d]: %s: %s",
-            errorsEntry.getKey(),
-            error.getReason(),
-            error.getMessage()
-        ));
+    	String reason = "";
+    	// only print the reason for a batch once
+    	if(reason != error.getReason()) {
+	        messageBuilder.append(String.format(
+	            "%n\t[row index %d]: %s: %s",
+	            errorsEntry.getKey(),
+	            error.getReason(),
+	            error.getMessage()
+	        ));
+	        reason = error.getReason();
+	      }
       }
     }
     return messageBuilder.toString();
