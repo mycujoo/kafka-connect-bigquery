@@ -49,21 +49,17 @@ public class BigQueryConnectException extends ConnectException {
   private static String formatInsertAllErrors(Map<Long, List<BigQueryError>> errorsMap) {
     StringBuilder messageBuilder = new StringBuilder();
     messageBuilder.append("table insertion failed for the following rows:");
-    for (Map.Entry<Long, List<BigQueryError>> errorsEntry : errorsMap.entrySet()) {
-      for (BigQueryError error : errorsEntry.getValue()) {
-    	String reason = "";
-    	// only print the reason for a batch once
-    	if(reason != error.getReason()) {
-	        messageBuilder.append(String.format(
-	            "%n\t[row index %d]: %s: %s",
+    
+    Map.Entry<Long,List<BigQueryError>> errorsEntry = errorsMap.entrySet().iterator().next();
+    for (BigQueryError error : errorsEntry.getValue()) {
+	    messageBuilder.append(String.format(
+	    		"%n\t[row index %d]: %s: %s",
 	            errorsEntry.getKey(),
 	            error.getReason(),
 	            error.getMessage()
-	        ));
-	        reason = error.getReason();
-	      }
-      }
+	    		));
     }
+
     return messageBuilder.toString();
   }
 }
