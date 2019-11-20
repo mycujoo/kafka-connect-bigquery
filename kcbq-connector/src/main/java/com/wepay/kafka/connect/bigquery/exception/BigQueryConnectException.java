@@ -45,7 +45,28 @@ public class BigQueryConnectException extends ConnectException {
   public BigQueryConnectException(Map<Long, List<BigQueryError>> errors) {
     super(formatInsertAllErrors(errors));
   }
+  
+  public BigQueryConnectException(Map<Long, List<BigQueryError>> errors, String topic) {
+	    super(formatInsertAllErrors(errors, topic));
+	  }
 
+  private static String formatInsertAllErrors(Map<Long, List<BigQueryError>> errorsMap, String topic) {
+	    StringBuilder messageBuilder = new StringBuilder();
+	    messageBuilder.append("table insertion for the topic "+topic+" failed for the following rows:");
+	    
+	    Map.Entry<Long,List<BigQueryError>> errorsEntry = errorsMap.entrySet().iterator().next();
+	    for (BigQueryError error : errorsEntry.getValue()) {
+		    messageBuilder.append(String.format(
+		    		"%n\t[row index %d]: %s: %s",
+		            errorsEntry.getKey(),
+		            error.getReason(),
+		            error.getMessage()
+		    		));
+	    }
+
+	    return messageBuilder.toString();
+	  }
+  
   private static String formatInsertAllErrors(Map<Long, List<BigQueryError>> errorsMap) {
     StringBuilder messageBuilder = new StringBuilder();
     messageBuilder.append("table insertion failed for the following rows:");

@@ -124,7 +124,7 @@ public abstract class BigQueryWriter {
               rows.size() - failedRowsMap.size(), failedRowsMap.size());
           // update insert rows and retry in case of partial failure
           rows = getFailedRows(rows, failedRowsMap.keySet());
-          mostRecentException = new BigQueryConnectException(failedRowsMap);
+          mostRecentException = new BigQueryConnectException(failedRowsMap, topic);
           retryCount++;
         } else {
           // throw an exception in case of complete failure
