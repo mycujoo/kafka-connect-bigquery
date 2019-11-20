@@ -82,12 +82,13 @@ public class TableWriter implements Runnable {
           currentIndex += currentBatchSize;
           successCount++;
         } catch (BigQueryException err) {
-          if (isBatchSizeError(err)) {
-            failureCount++;
-            currentBatchSize = getNewBatchSize(currentBatchSize);
-          } else {
+          //if (isBatchSizeError(err)) {
+            //failureCount++;
+            //currentBatchSize = getNewBatchSize(currentBatchSize);
+          //} else {
+        	  //logger.error(err.getMessage());
         	  throw new ConnectException("Unable to write rows.", err);
-          }
+          //}
         }
       }
     } catch (InterruptedException err) {
