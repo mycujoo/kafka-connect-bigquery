@@ -87,7 +87,7 @@ public class TableWriter implements Runnable {
             //currentBatchSize = getNewBatchSize(currentBatchSize);
           //} else {
         	  //logger.error(err.getMessage());
-        	  throw new ConnectException("Unable to write rows.", err);
+        	  throw new ConnectException("Unable to write rows for table ["+table+"]", err);
           //}
         }
       }
